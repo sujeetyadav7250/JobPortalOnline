@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { assets } from '../assets/assets'
+import {AppContext } from '../context/AppContext'
+
 
 const RecruiterLogin = () => {
 
@@ -13,6 +15,8 @@ const RecruiterLogin = () => {
 
   const [isTextDataSubmited, setIsTextDataSubmited] = useState(false)
 
+  const {setShowRecruiterLogin} = useContext(AppContext)
+
   const onSubmitHandler = async (e) => {
     e.preventDefault()
 
@@ -20,6 +24,15 @@ const RecruiterLogin = () => {
       setIsTextDataSubmited(true)
     }
   }
+
+  useEffect(()=>{
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+
+  },[])
 
     
 
@@ -33,8 +46,8 @@ const RecruiterLogin = () => {
 
             <div className='flex items-center gap-4 my-10'>
               <label htmlFor="image">
-                <img className='w-16 rounded-full' src={assets.upload_area} alt="" />
-                <input type="file" id='image' hidden />
+                <img className='w-16 rounded-full' src={image ? URL.createObjectURL(image): assets.upload_area} alt="" />
+                <input onChange={e=>setImage(e.target.files[0])} type="file" id='image' hidden />
               </label>
               <p>Upload Company <br /> logo</p>
             </div>
@@ -62,9 +75,9 @@ const RecruiterLogin = () => {
 
     </>}
 
-    <p className='text-sm text-blue-600 my-4 cursor-pointer'>Forgot password</p>
+    {state === "Login" && <p className='text-sm text-blue-600 my-4 cursor-pointer'>Forgot password</p>} 
 
-        <button type='submit' className='bg-blue-600 w-full text-white py-2 rounded-full'>
+        <button type='submit' className='bg-blue-600 w-full text-white py-2 rounded-full mt-4'>
           {state === 'Login' ? 'Login' : isTextDataSubmited ? 'create account' : 'next'}
         </button>
             {
@@ -73,6 +86,8 @@ const RecruiterLogin = () => {
               : <p className='mt-5 text-center'>Already have an aaccount? <span className='text-blue-600 cursor-pointer'  onClick={()=> setState("Login")}>Login</span></p>
 
             }
+
+            <img onClick={ e => setShowRecruiterLogin(false)} className='absolute top-5 right-5 cursor-pointer' src={assets.cross_icon} alt="" />
         
       </form>
     </div>
@@ -82,4 +97,3 @@ const RecruiterLogin = () => {
 export default RecruiterLogin
 
 
-// 3:39
