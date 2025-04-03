@@ -93,11 +93,18 @@ export const JobLocations = [
 ]
 
 // Sample data for Manage Jobs Page
+// export const manageJobsData = [
+//     { _id: 1, title: "Full Stack Developer", date: 1729102298497, location: "Bangalore", applicants: 20 },
+//     { _id: 2, title: "Data Scientist", date: 1729102298497, location: "San Francisco", applicants: 15 },
+//     { _id: 3, title: "Marketing Manager", date: 1729102298497, location: "London", applicants: 2 },
+//     { _id: 4, title: "UI/UX Designer", date: 1729102298497, location: "Dubai", applicants: 25 }
+// ];
+
 export const manageJobsData = [
-    { _id: 1, title: "Full Stack Developer", date: 1729102298497, location: "Bangalore", applicants: 20 },
-    { _id: 2, title: "Data Scientist", date: 1729102298497, location: "San Francisco", applicants: 15 },
-    { _id: 3, title: "Marketing Manager", date: 1729102298497, location: "London", applicants: 2 },
-    { _id: 4, title: "UI/UX Designer", date: 1729102298497, location: "Dubai", applicants: 25 }
+    { _id: 1, title: "Full Stack Developer", date: Date.now(), location: "Bangalore", applicants: 20 },
+    { _id: 2, title: "Data Scientist", date: Date.now(), location: "San Francisco", applicants: 15 },
+    { _id: 3, title: "Marketing Manager", date: Date.now(), location: "London", applicants: 2 },
+    { _id: 4, title: "UI/UX Designer", date: Date.now(), location: "Dubai", applicants: 25 }
 ];
 
 // Sample data for Profile Page
