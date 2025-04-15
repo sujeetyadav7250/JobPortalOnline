@@ -1,3 +1,0 @@
-MONGO_URI=mongodb://127.0.0.1:27017/onlinejobportal
-JWT_SECRET=job12345
-PORT=5000
