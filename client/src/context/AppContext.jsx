@@ -32,6 +32,9 @@ export const AppContextProvider = (props) => {
     }
     useEffect(()=>{
         fetchJobs()
+
+        const storedCompanyToken = localStorage.getItem('companyToken')
+
     },[])
 
 
@@ -52,3 +55,7 @@ export const AppContextProvider = (props) => {
         {props.children}
         </AppContext.Provider>)
 }
+
+
+
+//8:11
