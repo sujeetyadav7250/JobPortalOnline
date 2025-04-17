@@ -1,7 +1,7 @@
 import express from 'express';
-import { getUserData, getUserJobApplications } from '../controllers/userController';
-import { get } from 'mongoose';
-import upload from '../config/multer';
+import { applyForJob, getUserData, getUserJobApplications, updateUserResume } from '../controllers/userController.js';
+import upload from '../config/multer.js';
+
 
 
 const router = express.Router();
@@ -22,4 +22,3 @@ export default router;
 
 
 
-//7:24

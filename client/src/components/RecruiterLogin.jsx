@@ -15,7 +15,7 @@ const RecruiterLogin = () => {
 
   const [isTextDataSubmited, setIsTextDataSubmited] = useState(false)
 
-  const {setShowRecruiterLogin} = useContext(AppContext)
+  const {setShowRecruiterLogin, backendUrl } = useContext(AppContext)
 
   const onSubmitHandler = async (e) => {
     e.preventDefault()
@@ -23,6 +23,7 @@ const RecruiterLogin = () => {
     if(state == "Sign Up" && !isTextDataSubmited){
       setIsTextDataSubmited(true)
     }
+
   }
 
   useEffect(()=>{
@@ -97,3 +98,4 @@ const RecruiterLogin = () => {
 export default RecruiterLogin
 
 
+//7:56
