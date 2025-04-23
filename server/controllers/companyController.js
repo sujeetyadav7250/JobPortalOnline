@@ -219,11 +219,40 @@ export const changeVisiblity = async (req, res) =>{
 
         await job.save()
 
-        res.json({success:true, job})
+        res.json({
+            success: true, 
+            message: `Job visibility ${job.visible ? 'enabled' : 'disabled'} successfully`,
+            job
+        })
         
     } catch (error) {
-        res.json({success:false, message: error.message})
+        res.json({success:false, message:error.message})
         
     }
 
 }
+
+//Get Single Job Application
+export const getSingleJobApplication = async (req, res) => {
+  try {
+    const applicationId = req.params.id;
+    const companyId = req.company._id;
+
+    // Find the specific job application and populate related data
+    const application = await JobApplication.findOne({
+      _id: applicationId,
+      companyId
+    })
+    .populate('userId', 'name email image resume title location phone bio skills languages education experience')
+    .populate('jobId', 'title description location category level salary')
+    .exec();
+
+    if (!application) {
+      return res.json({ success: false, message: "Application not found or you do not have permission to view it." });
+    }
+
+    return res.json({ success: true, application });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};

@@ -4,21 +4,15 @@ import { AppContext } from '../context/AppContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import Loading from '../components/Loading' // Adjust path as needed
-
-
-
-
+import { Link } from 'react-router-dom'
 
 const ViewApplications = () => {
-
   const {backendUrl, companyToken} = useContext(AppContext)
   const [applicants, setApplicants] = useState(false)
 
   // Function to fetch company job Applications data
   const fetchCompanyJobApplications = async() =>{
-
     try {
-      
       const {data} = await axios.get(backendUrl+'/api/company/applicants',
         {headers: {token : companyToken}}
       )
@@ -30,41 +24,35 @@ const ViewApplications = () => {
       }
     } catch (error) {
       toast.error(error.message)
-      
     }
   }
 
   //Function to update job Applications status
-
   const changeJobApplicationStatus = async (id, status) => {
     try {
-
       const {data} = await axios.post(backendUrl+'/api/company/change-status',
         { id, status }, 
         { headers: { token: companyToken } }
       )
 
       if(data.success){
+        toast.success(`Application ${status.toLowerCase()} successfully`)
         fetchCompanyJobApplications()
       }else{
         toast.error(data.message)
       }
-
-      
     } catch (error) {
       toast.error(error.message)
-      
     }
   }
-
-  
 
   useEffect(()=>{
     if(companyToken){
       fetchCompanyJobApplications()
     }
   },[companyToken])
-  return applicants ? applicants.length !== 0 ? (
+  
+  return applicants ? applicants.length === 0 ? (
     <div className='flex items-center justify-center h-[70vh]'>
     <p className='text-xv sm:text-2xl'>No Applications Available</p>
     </div>
@@ -79,6 +67,7 @@ const ViewApplications = () => {
               <th className='py-2 px-4 text-left max-sm:hidden'>Job Title</th>
               <th className='py-2 px-4 text-left max-sm:hidden'>Location</th>
               <th className='py-2 px-4 text-left'>Resume</th>
+              <th className='py-2 px-4 text-left'>Status</th>
               <th className='py-2 px-4 text-left'>Action</th>
             </tr>
           </thead>
@@ -96,22 +85,38 @@ const ViewApplications = () => {
                   <a href={applicant.userId.resume} target='_blank'
                    className='bg-blue-50 text-blue-400 px-3 py-1 rounded inline-flex gap-2 items-center' >
                     Resume <img src={assets.resume_download_icon} alt='' />
-
                   </a>
                 </td>
+                <td className='py-2 px-4 border-b'>
+                  <span className={`px-2 py-1 rounded text-xs ${
+                    applicant.status === 'Accepted' 
+                      ? 'bg-green-100 text-green-800' 
+                      : applicant.status === 'Rejected' 
+                      ? 'bg-red-100 text-red-800' 
+                      : 'bg-blue-100 text-blue-800'
+                  }`}>
+                    {applicant.status || 'Pending'}
+                  </span>
+                </td>
                 <td className='py-2 px-4 border-b relative'>
-                  {applicant.status === "Pending"
-                  ? <div className='relative inline-block text-left group'>
-                  <button className='text-gray-500 action-button'>...</button>
-                  <div className='z-10 hidden absolute right-0 md:left-0 top-0 mt-2 w-32 bg-white border border-gray-200 rounded shadow group-hover:block'>
-                    <button onClick={()=> changeJobApplicationStatus(applicant._id,'Accepted')} className='block w-full text-left px-4 py-2 text-blue-500 hover:bg-gray-100'>Accept</button>
-                    <button onClick={()=> changeJobApplicationStatus(applicant._id,'Rejected')} className='block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100'>Reject</button>
+                  <div className='flex gap-2'>
+                    <Link 
+                      to={`/dashboard/application/${applicant._id}`}
+                      className='bg-blue-50 text-blue-500 px-2 py-1 rounded text-xs hover:bg-blue-100'
+                    >
+                      View Details
+                    </Link>
+                    
+                    {applicant.status === "Pending" && (
+                      <div className='relative inline-block text-left group'>
+                        <button className='text-gray-500 action-button'>...</button>
+                        <div className='z-10 hidden absolute right-0 md:left-0 top-0 mt-2 w-32 bg-white border border-gray-200 rounded shadow group-hover:block'>
+                          <button onClick={()=> changeJobApplicationStatus(applicant._id,'Accepted')} className='block w-full text-left px-4 py-2 text-blue-500 hover:bg-gray-100'>Accept</button>
+                          <button onClick={()=> changeJobApplicationStatus(applicant._id,'Rejected')} className='block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100'>Reject</button>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-                : <div>{applicant.status}</div>
-
-                 }
-                  
                 </td>
               </tr>
             ))}

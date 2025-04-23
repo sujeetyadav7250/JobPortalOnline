@@ -28,7 +28,7 @@ const Dashboard = () => {
       <div className="shadow py-4">
         <div className="px-5 flex justify-between items-center">
           <img
-            onClick={(e) => navigate("/")}
+            onClick={() => navigate("/dashboard/manage-jobs")}
             className="max-sm:w-32 cursor-pointer"
             src={assets.logo}
             alt=""
